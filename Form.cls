@@ -91,6 +91,10 @@ Private Sub ComboBoxID_LostFocus()
 End Sub
 
 Private Sub ComboBoxName_DropButtonClick()
+
+    Dim colMap As Object
+    Set colMap = Custos.GetColumnHeadersMapping()
+    
     Dim wsDados As Worksheet
     Dim wsFormulário As Worksheet
     Dim dadosTable As ListObject
@@ -117,13 +121,13 @@ Private Sub ComboBoxName_DropButtonClick()
     maxChar = 125 / 5
 
     ' Loop through column 1 values and add unique ones
-    For Each cell In dadosTable.ListColumns(2).DataBodyRange
-        If Not IsEmpty(cell.Value) And Not sortedKeys.Contains(cell.Value & " - " & cell.Offset(0, 1) & " - " & cell.Offset(0, 15)) Then
-            If maxChar < Len(cell.Value & " - " & cell.Offset(0, 1) & " - " & cell.Offset(0, 15)) Then
-                maxChar = Len(cell.Value & " - " & cell.Offset(0, 1) & " - " & cell.Offset(0, 15))
+    For Each cell In dadosTable.ListColumns(colMap("ID")).DataBodyRange
+        If Not IsEmpty(cell.Value) And Not sortedKeys.Contains(cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição"))) Then
+            If maxChar < Len(cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição"))) Then
+                maxChar = Len(cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição")))
             End If
             
-            sortedKeys.Add cell.Value & " - " & cell.Offset(0, 1) & " - " & cell.Offset(0, 15)
+            sortedKeys.Add cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição"))
         End If
     Next cell
     

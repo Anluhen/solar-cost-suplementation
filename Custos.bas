@@ -400,7 +400,7 @@ Sub EnviarParaAprovação(Optional ShowOnMacroList As Boolean = False)
     End With
     
     HTMLbody = ""
-    HTMLbody = HTMLbody & "<p>" & greeting & ", Bruna</p>"
+    HTMLbody = HTMLbody & "<p>" & greeting & ", Prezado</p>"
     HTMLbody = HTMLbody & "<p>Gentileza dar continuidade na Suplementação conforme abaixo:</p>"
     'HTMLbody = HTMLbody & "<p>Solicito sua confirmação (“De acordo”) quanto aos valores abai xo, para que possamos dar continuidade à contratação da " & _
         foundRow.Cells(1, 22).Value & " para o serviço descrito a seguir: " & foundRow.Cells(1, 15).Value & " da " & foundRow.Cells(1, 1).Value & _
@@ -411,90 +411,90 @@ Sub EnviarParaAprovação(Optional ShowOnMacroList As Boolean = False)
     
     ' Title row
     HTMLbody = HTMLbody & "<tr style='background-color:#d9d9d9;'>"
-    HTMLbody = HTMLbody & "<td colspan='2'><b>Suplementação de Custos" & " - " & foundRow.Cells(1, 1).Value & " - " & foundRow.Cells(1, 2).Value & "</b></td>"
+    HTMLbody = HTMLbody & "<td colspan='2'><b>Suplementação de Custos" & " - " & foundRow.Cells(1, colMap("Obra")).Value & " - " & foundRow.Cells(1, colMap("Cliente")).Value & "</b></td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 1) CUSTO DA SUPLEMENTAÇÃO
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Custo da suplementação</b></td>"
     ' Example: reading from the "Dados" sheet. Adjust the range as needed.
-    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 7).Value, "R$ #,##0.00") & "</td>"
+    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Suplementação")).Value, "R$ #,##0.00") & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 2) Inserido no DR/tarefa
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Inserido no DR/tarefa</b></td>"
-    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 6).Value & "</td>"
+    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("DR")).Value & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 3) PEP
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>PEP</b></td>"
-    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 5).Value & "</td>"
+    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("PEP")).Value & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 4) CUSTO COT DO DR
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Custo COT do DR</b></td>"
-    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 8).Value, "R$ #,##0.00") & "</td>"
+    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("COT")).Value, "R$ #,##0.00") & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 5) CUSTO PLANEJADO ANTES DA SUPLEMENTAÇÃO
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Custo planejado antes da suplementação (versão Z)</b></td>"
-    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 9).Value, "R$ #,##0.00") & "</td>"
+    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Custo Antes")).Value, "R$ #,##0.00") & "</td>"
     HTMLbody = HTMLbody & "</tr>"
       
     ' 6) CUSTO PLANEJADO APÓS A SUPLEMENTAÇÃO
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Custo planejado após suplementação</b></td>"
-    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 10).Value, "R$ #,##0.00") & "</td>"
+    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Custo Depois")).Value, "R$ #,##0.00") & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 7) Resultado planejado atual antes da suplementação
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Resultado planejado atual antes da suplementação (%)</b></td>"
-    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 11).Value, "##.00%") & "</td>"
+    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Resultado Antes")).Value, "##.00%") & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 8) Resultado planejado atual após a suplementação
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Resultado planejado atual após a suplementação (%)</b></td>"
-    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 12).Value, "##.00%") & "</td>"
+    HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Resultado Depois")).Value, "##.00%") & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 9) Saldo da provisão
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Saldo atual da provisão de riscos no momento da análise:</b></td>"
-    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 15).Value & "</td>"
+    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("Provisão")).Value & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 10) Justificativa
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Justificativa:</b></td>"
-    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 17).Value & "</td>"
+    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("Justificativa")).Value & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 11) Outros riscos já mapeados
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Outros riscos já mapeados</b></td>"
-    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 24).Value & "</td>"
+    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("Riscos")).Value & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' 12) Estágio da Obra
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Estágio da obra</b></td>"
     
-    If IsNumeric(foundRow.Cells(1, 18).Value) Then
-        If foundRow.Cells(1, 18).Value < 0.4 Then
-            HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 18).Value, "##.00%") & " (Fase Inicial)" & "</td>"
-        ElseIf foundRow.Cells(1, 18).Value < 0.8 Then
-            HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 18).Value, "##.00%") & " (Fase Intermediária)" & "</td>"
+    If IsNumeric(foundRow.Cells(1, colMap("Estágio")).Value) Then
+        If foundRow.Cells(1, colMap("Estágio")).Value < 0.4 Then
+            HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Estágio")).Value, "##.00%") & " (Fase Inicial)" & "</td>"
+        ElseIf foundRow.Cells(1, colMap("Estágio")).Value < 0.8 Then
+            HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Estágio")).Value, "##.00%") & " (Fase Intermediária)" & "</td>"
         Else
-            HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, 18).Value, "##.00%") & " (Fase Final)" & "</td>"
+            HTMLbody = HTMLbody & "<td>" & Format(foundRow.Cells(1, colMap("Estágio")).Value, "##.00%") & " (Fase Final)" & "</td>"
         End If
     Else
-        HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 18).Value & "</td>"
+        HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("Estágio")).Value & "</td>"
     End If
 
     HTMLbody = HTMLbody & "</tr>"
@@ -503,7 +503,7 @@ Sub EnviarParaAprovação(Optional ShowOnMacroList As Boolean = False)
     ' 13) Ação necessária
     HTMLbody = HTMLbody & "<tr>"
     HTMLbody = HTMLbody & "<td><b>Ação necessária</b></td>"
-    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, 20).Value & "</td>"
+    HTMLbody = HTMLbody & "<td>" & foundRow.Cells(1, colMap("Detalhamento")).Value & "</td>"
     HTMLbody = HTMLbody & "</tr>"
     
     ' Close the table
@@ -526,9 +526,9 @@ Sub EnviarParaAprovação(Optional ShowOnMacroList As Boolean = False)
     Set OutMail = Nothing
     Set OutApp = Nothing
     
-    foundRow.Cells(1, 29).Value = Date
+    foundRow.Cells(1, colMap("Data")).Value = Date
     
-    MsgBox "Email """ & "Aprovação de Custos - Suplementação de Custos - " & foundRow.Cells(1, 1).Value & " - " & foundRow.Cells(1, 2).Value & """ enviado com sucesso!", vbInformation
+    MsgBox "Email """ & "Aprovação de Custos - Suplementação de Custos - " & foundRow.Cells(1, colMap("Obra")).Value & " - " & foundRow.Cells(1, colMap("Cliente")).Value & """ enviado com sucesso!", vbInformation
     
     OptimizeCodeExecution False
     

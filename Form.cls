@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "Form"
+Attribute VB_Name = "Planilha1"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -91,10 +91,6 @@ Private Sub ComboBoxID_LostFocus()
 End Sub
 
 Private Sub ComboBoxName_DropButtonClick()
-
-    Dim colMap As Object
-    Set colMap = Custos.GetColumnHeadersMapping()
-    
     Dim wsDados As Worksheet
     Dim wsFormulário As Worksheet
     Dim dadosTable As ListObject
@@ -119,17 +115,20 @@ Private Sub ComboBoxName_DropButtonClick()
     Set sortedKeys = CreateObject("System.Collections.ArrayList")
 
     maxChar = 125 / 5
+    
+    Dim colMap As Object, formMap As Object
+    Set colMap = Custos.GetColumnHeadersMapping()
 
     ' Loop through column 1 values and add unique ones
-    For Each cell In dadosTable.ListColumns(colMap("ID")).DataBodyRange
-        If Not IsEmpty(cell.Value) And Not sortedKeys.Contains(cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição"))) Then
-            If maxChar < Len(cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição"))) Then
-                maxChar = Len(cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição")))
+    For Each foundRow In dadosTable.ListColumns(colMap("ID")).DataBodyRange
+        If Not IsEmpty(foundRow.Value) And Not sortedKeys.Contains(foundRow.Value & " - " & foundRow.Cells(1, colMap("Cliente")) & " - " & foundRow.Cells(1, colMap("Obra")) & " - " & foundRow.Cells(1, colMap("Descricao"))) Then
+            If maxChar < Len(foundRow.Value & " - " & foundRow.Cells(1, colMap("Cliente")) & " - " & foundRow.Cells(1, colMap("Obra")) & " - " & foundRow.Cells(1, colMap("Descricao"))) Then
+                maxChar = Len(foundRow.Value & " - " & foundRow.Cells(1, colMap("Cliente")) & " - " & foundRow.Cells(1, colMap("Obra")) & " - " & foundRow.Cells(1, colMap("Descricao")))
             End If
             
-            sortedKeys.Add cell.Value & " - " & cell.Cells(1, colMap("Cliente")) & " - " & cell.Cells(1, colMap("Obra")) & " - " & cell.Cells(1, colMap("Descrição"))
+            sortedKeys.Add foundRow.Value & " - " & foundRow.Cells(1, colMap("Cliente")) & " - " & foundRow.Cells(1, colMap("Obra")) & " - " & foundRow.Cells(1, colMap("Descricao"))
         End If
-    Next cell
+    Next foundRow
     
     ' Sort the ArrayList alphabetically
     sortedKeys.Sort
@@ -139,7 +138,11 @@ Private Sub ComboBoxName_DropButtonClick()
     '    sortedKeys.Insert 0, "" ' Insert empty string at the beginning
     'End If
     
-    wsForm.OLEObjects("ComboBoxName").Width = maxChar * 5
+    If maxChar * 5 > 500 Then
+        wsForm.OLEObjects("ComboBoxName").Width = 500
+    Else
+        wsForm.OLEObjects("ComboBoxName").Width = maxChar * 5
+    End If
     wsForm.OLEObjects("ComboBoxName").Top = wsForm.OLEObjects("ComboBoxID").Top + 38
     wsForm.OLEObjects("ComboBoxName").Left = wsForm.OLEObjects("ComboBoxID").Left
     
